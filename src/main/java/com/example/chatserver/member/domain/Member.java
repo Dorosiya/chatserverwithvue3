@@ -24,6 +24,4 @@ public class Member {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Role role = Role.USER;
-
-
 }
