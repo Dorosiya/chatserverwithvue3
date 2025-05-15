@@ -34,6 +34,6 @@ public class StompHandler implements ChannelInterceptor {
             System.out.println("토큰 검증 완료");
         }
 
-        return ChannelInterceptor.super.preSend(message, channel);
+        return message;
     }
 }
