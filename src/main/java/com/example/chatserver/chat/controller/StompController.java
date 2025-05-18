@@ -1,9 +1,9 @@
 package com.example.chatserver.chat.controller;
 
-import com.example.chatserver.member.dto.ChatMessageReqDto;
+import com.example.chatserver.chat.service.ChatService;
+import com.example.chatserver.chat.dto.ChatMessageDto;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 public class StompController {
 
     private final SimpMessageSendingOperations messagingTemplate;
+    private final ChatService chatService;
 
-    public StompController(SimpMessageSendingOperations messagingTemplate) {
+    public StompController(SimpMessageSendingOperations messagingTemplate, ChatService chatService) {
         this.messagingTemplate = messagingTemplate;
+        this.chatService = chatService;
     }
 
 //    // 방법1.MessageMapping(수신)과 SendTo(topic에 메시지 전달) 한꺼번에 처리
@@ -27,8 +29,9 @@ public class StompController {
 
     // 방법2.MessageMapping 어노테이션만 활용
     @MessageMapping("/{roomId}") // 클라이언트에서 특정 publish/roomId 형태로 메시지를 발생 시 MessageMapping 수신
-    public void sendMessage(@DestinationVariable Long roomId, ChatMessageReqDto chatMessageReqDto) {
-        System.out.println(chatMessageReqDto.getMessage());
-        messagingTemplate.convertAndSend("/topic/"+roomId, chatMessageReqDto);
+    public void sendMessage(@DestinationVariable Long roomId, ChatMessageDto chatMessageDto) {
+        System.out.println(chatMessageDto.getMessage());
+        chatService.saveMessage(roomId, chatMessageDto);
+        messagingTemplate.convertAndSend("/topic/"+roomId, chatMessageDto);
     }
 }

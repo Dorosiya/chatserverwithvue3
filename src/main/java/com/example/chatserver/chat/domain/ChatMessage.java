@@ -1,5 +1,6 @@
 package com.example.chatserver.chat.domain;
 
+import com.example.chatserver.common.domain.BaseTimeEntity;
 import com.example.chatserver.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-public class ChatMessage {
+public class ChatMessage extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
