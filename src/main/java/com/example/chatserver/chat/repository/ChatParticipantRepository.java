@@ -14,4 +14,6 @@ public interface ChatParticipantRepository extends CrudRepository<ChatParticipan
     List<ChatParticipant> findByChatRoom(ChatRoom chatRoom);
 
     Optional<ChatParticipant> findByChatRoomAndMember(ChatRoom chatRoom, Member member);
+
+    List<ChatParticipant> findAllByMember(Member member);
 }

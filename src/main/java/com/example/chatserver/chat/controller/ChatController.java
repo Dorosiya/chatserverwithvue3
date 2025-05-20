@@ -2,6 +2,7 @@ package com.example.chatserver.chat.controller;
 
 import com.example.chatserver.chat.dto.ChatMessageDto;
 import com.example.chatserver.chat.dto.ChatRoomListResDto;
+import com.example.chatserver.chat.dto.MyChatListResDto;
 import com.example.chatserver.chat.service.ChatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,4 +47,26 @@ public class ChatController {
         List<ChatMessageDto> chatMessageDtos = chatService.getChatHistory(roomId);
         return new ResponseEntity<>(chatMessageDtos, HttpStatus.OK);
     }
+
+    // 채팅 메시지 읽음 처리
+    @PostMapping("/room/{roomId}/read")
+    public ResponseEntity<?> messageRead(@PathVariable Long roomId) {
+        chatService.messageRead(roomId);
+        return ResponseEntity.ok().build();
+    }
+
+    // 내 채팅방 목록 조회 : roomId, roomName, 그룹채팅여부, 메세지 읽음 개수
+    @GetMapping("/my/rooms")
+    public ResponseEntity<?> getMyChatRooms() {
+        List<MyChatListResDto> myChatListResDtos = chatService.getMyChatRooms();
+        return new ResponseEntity<>(myChatListResDtos, HttpStatus.OK);
+    }
+
+    // 채팅방 나가기
+    @DeleteMapping("/room/group/{roomId}/leave")
+    public ResponseEntity<?> leaveGroupChatRoom(@PathVariable Long roomId) {
+        chatService.leaveChatRoom(roomId);
+        return ResponseEntity.ok().build();
+    }
+
 }
