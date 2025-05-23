@@ -18,7 +18,7 @@ public class RedisConfig {
     @Value("${spring.data.redis.host}")
     private String host;
 
-    @Value("${sptring.data.redis.port}")
+    @Value("${spring.data.redis.port}")
     private int port;
 
     // 연결 기본 객체
